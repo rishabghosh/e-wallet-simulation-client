@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
 
@@ -76,11 +71,17 @@ const Home = function(props) {
 };
 
 const Profile = function(props) {
-  console.log("rendering profile");
+  const [newAmount, setNewAmount] = useState(0);
+  const handleAmount = event => setNewAmount(event.target.value);
+  const updateAmount = function() {
+    props.setAmount(+props.amount + +newAmount);
+  };
   return (
     <div>
       <p>name: {props.name}</p>
       <p>amount: {props.amount}</p>
+      <input placeholder="amount" value={newAmount} onChange={handleAmount} />
+      <button onClick={updateAmount}>add</button>
     </div>
   );
 };
@@ -111,13 +112,14 @@ const App = function() {
             if (correctCredentials) {
               return <Redirect to="/user" />;
             }
-            console.log("wrong input");
           }}
         />
         <Route
           path="/user"
           exact
-          render={() => <Profile name={name} amount={amount} />}
+          render={() => (
+            <Profile name={name} amount={amount} setAmount={setAmount} />
+          )}
         />
       </Router>
     </div>
