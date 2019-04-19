@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+
 import "./App.css";
 
-const Home = function() {
+const extractDetails = function(data) {
+  const name = data[0].name;
+  const amount = data[0].amount;
+  return { name, amount };
+};
+
+const Home = function(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,8 +17,18 @@ const Home = function() {
 
   const handleSubmit = function() {
     console.log("should handle submit");
-    setUsername("");
-    setPassword("");
+    // setUsername("");
+    // setPassword("");
+    fetch("/loginCredentials", {
+      method: "POST",
+      body: JSON.stringify({ username, password })
+    })
+      .then(res => res.json())
+      .then(json => extractDetails(json))
+      .then(data => {
+        props.setName(data.name);
+        props.setAmount(data.amount);
+      });
   };
 
   return (
@@ -32,9 +49,16 @@ const Home = function() {
 };
 
 const App = function() {
+  const [name, setName] = useState("No user");
+  const [amount, setAmount] = useState(0);
+
   return (
     <div className="App">
-      <Home />
+      <Home setName={setName} setAmount={setAmount} />
+      <div>
+        <p>name: {name}</p>
+        <p>amount: {amount}</p>
+      </div>
     </div>
   );
 };
