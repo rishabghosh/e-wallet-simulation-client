@@ -10,15 +10,14 @@ const extractDetails = function(data) {
 };
 
 const Home = function(props) {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
 
-  const handleUsernameChange = event => setUsername(event.target.value);
+  const handleUsernameChange = event => props.setUsername(event.target.value);
   const handlePasswordChange = event => setPassword(event.target.value);
 
   const handleSubmit = function() {
-    if (username && password) {
+    if (props.username && password) {
       setNotification("");
       sendLoginCredentials();
       // setUsername("");
@@ -33,7 +32,7 @@ const Home = function(props) {
 
     fetch("/loginCredentials", {
       method: "POST",
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username: props.username, password })
     })
       .then(res => res.json())
       .then(json => {
@@ -54,7 +53,7 @@ const Home = function(props) {
       <input
         placeholder="username"
         type="text"
-        value={username}
+        value={props.username}
         onChange={handleUsernameChange}
       />
       <input
@@ -71,22 +70,31 @@ const Home = function(props) {
 };
 
 const Profile = function(props) {
-  const [newAmount, setNewAmount] = useState(0);
-  const handleAmount = event => setNewAmount(event.target.value);
+  const [addedAmount, setAddedAmount] = useState(0);
+  const handleAmount = event => setAddedAmount(event.target.value);
+
   const updateAmount = function() {
-    props.setAmount(+props.amount + +newAmount);
+    const newAmount = +props.amount + +addedAmount;
+    props.setAmount(newAmount);
+
+    fetch("/updateAmount", {
+      method: "POST",
+      body: JSON.stringify({ newAmount, username: props.username })
+    });
   };
+
   return (
     <div>
       <p>name: {props.name}</p>
       <p>amount: {props.amount}</p>
-      <input placeholder="amount" value={newAmount} onChange={handleAmount} />
+      <input placeholder="amount" value={addedAmount} onChange={handleAmount} />
       <button onClick={updateAmount}>add</button>
     </div>
   );
 };
 
 const App = function() {
+  const [username, setUsername] = useState("");
   const [name, setName] = useState("No user");
   const [amount, setAmount] = useState(0);
   const [correctCredentials, setCorrectCredentials] = useState(false);
@@ -102,6 +110,8 @@ const App = function() {
               setName={setName}
               setAmount={setAmount}
               setCorrectCredentials={setCorrectCredentials}
+              username={username}
+              setUsername={setUsername}
             />
           )}
         />
@@ -118,7 +128,12 @@ const App = function() {
           path="/user"
           exact
           render={() => (
-            <Profile name={name} amount={amount} setAmount={setAmount} />
+            <Profile
+              name={name}
+              amount={amount}
+              setAmount={setAmount}
+              username={username}
+            />
           )}
         />
       </Router>
