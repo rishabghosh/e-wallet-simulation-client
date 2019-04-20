@@ -83,12 +83,9 @@ const SignUp = function() {
 
   /** should handle username already exception */
   const handleSubmit = function() {
-    if ((username, password, name)) {
-      // const fetchRequest = new FetchRequest("/signupCredentials");
-      // fetchRequest.postJson({ username, password, name });
-      const items = { username, password, name };
-      const config = { method: "POST", body: JSON.stringify(items) };
-      fetch("/signupCredentials", config);
+    if (username && password && name) {
+      const fetchRequest = new FetchRequest("/signupCredentials");
+      fetchRequest.postJson({ username, password, name });
       setNotification("account created successfully plz go back to login page");
       return;
     }
@@ -116,8 +113,6 @@ const SignUp = function() {
         onChange={handlePasswordChange}
       />
       <button onClick={handleSubmit}>signup</button>
-
-      {/* <p>should be the signup page</p> */}
       <p>{notification}</p>
       <Link to="/">Click here to login</Link>
     </div>

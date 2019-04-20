@@ -5,7 +5,6 @@ import Profile from "./Profile";
 import { useInput } from "./customHooks";
 import "./App.css";
 
-
 /**
  * can name, amount and correctCredentials converted into custom hooks ???
  */
@@ -26,7 +25,10 @@ const App = function() {
   const profileProperties = { name, amount, setAmount, username };
 
   const redirectToUser = function() {
-    if (correctCredentials) return <Redirect to="/user" />;
+    if (correctCredentials) {
+      setCorrectCredentials(false);
+      return <Redirect to="/user" />;
+    }
   };
 
   return (
