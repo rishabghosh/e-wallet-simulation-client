@@ -1,12 +1,19 @@
 import React, { useState } from "react";
+import { useInput, useAction } from "./customHooks";
 
 const Profile = function(props) {
-  const [addedAmount, setAddedAmount] = useState(0);
-  const handleAmount = event => setAddedAmount(event.target.value);
+  const [addedAmount, handleAddedAmount, resetAddedAmount] = useInput(0);
+  const renderOnChangeOf = [addedAmount];
+  const [notification, setNotification] = useAction("", renderOnChangeOf);
 
   const updateAmount = function() {
-    const newAmount = +props.amount + +addedAmount;
+    if (!(+addedAmount >= 0)) {
+      setNotification("Invalid amount");
+      return;
+    }
+    const newAmount = props.amount + +addedAmount;
     props.setAmount(newAmount);
+    resetAddedAmount();
 
     fetch("/updateAmount", {
       method: "POST",
@@ -18,10 +25,15 @@ const Profile = function(props) {
     <div>
       <p>name: {props.name}</p>
       <p>amount: {props.amount}</p>
-      <input placeholder="amount" value={addedAmount} onChange={handleAmount} />
+      <input
+        placeholder="amount"
+        value={addedAmount}
+        onChange={handleAddedAmount}
+      />
       <button onClick={updateAmount}>add</button>
+      <div>{notification}</div>
     </div>
   );
 };
 
-  export default Profile;
+export default Profile;

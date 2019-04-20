@@ -2,29 +2,27 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
+import { useInput } from "./customHooks";
 import "./App.css";
 
 const App = function() {
-  const [username, setUsername] = useState("");
+  const [username, handleUsernameChange] = useInput("");
   const [name, setName] = useState("No user");
   const [amount, setAmount] = useState(0);
   const [correctCredentials, setCorrectCredentials] = useState(false);
 
   const homeProperties = {
-    name,
     setName,
     setAmount,
     setCorrectCredentials,
     username,
-    setUsername
+    handleUsernameChange
   };
 
   const profileProperties = { name, amount, setAmount, username };
-  
+
   const redirectToUser = function() {
-    if (correctCredentials) {
-      return <Redirect to="/user" />;
-    }
+    if (correctCredentials) return <Redirect to="/user" />;
   };
 
   return (

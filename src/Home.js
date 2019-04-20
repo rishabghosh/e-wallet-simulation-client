@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useInput, useAction } from "./customHooks";
 
 /**
  * should be a object message with keys like this
@@ -31,11 +31,9 @@ const sendLoginCredentials = function(username, password, handleSetters) {
  * useEffect on change clear notification
  */
 const Home = function(props) {
-  const [password, setPassword] = useState(EMPTY_STRING);
-  const [notification, setNotification] = useState(EMPTY_STRING);
-
-  const handleUsernameChange = event => props.setUsername(event.target.value);
-  const handlePasswordChange = event => setPassword(event.target.value);
+  const [password, handlePasswordChange] = useInput(EMPTY_STRING);
+  const renderOnChangeOf = [props.username, password];
+  const [notification, setNotification] = useAction(EMPTY_STRING, renderOnChangeOf);
 
   const handleSetters = function(json) {
     if (json.incorrectCredentials) {
@@ -57,17 +55,13 @@ const Home = function(props) {
     setNotification(BLANK_CREDENTIAL_MESSAGE);
   };
 
-  useEffect(() => {
-    setNotification(EMPTY_STRING);
-  }, [props.username, password]);
-
   return (
     <div>
       <input
         placeholder="username"
         type="text"
         value={props.username}
-        onChange={handleUsernameChange}
+        onChange={props.handleUsernameChange}
       />
       <input
         placeholder="password"
