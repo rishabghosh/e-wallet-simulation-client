@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useInput, useAction } from "./customHooks";
+import FetchRequest from "./FetchRequest";
 
 const Profile = function(props) {
   const [addedAmount, handleAddedAmount, resetAddedAmount] = useInput(0);
@@ -14,11 +15,8 @@ const Profile = function(props) {
     const newAmount = props.amount + +addedAmount;
     props.setAmount(newAmount);
     resetAddedAmount();
-
-    fetch("/updateAmount", {
-      method: "POST",
-      body: JSON.stringify({ newAmount, username: props.username })
-    });
+    const fetchRequest = new FetchRequest("/updateAmount");
+    fetchRequest.postJson({ newAmount, username: props.username });
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useInput, useAction } from "./customHooks";
+import FetchRequest from "./FetchRequest";
 
 /**
  * should be a object message with keys like this
@@ -15,14 +16,8 @@ const extractDetails = function(data) {
 };
 
 const sendLoginCredentials = function(username, password, handleSetters) {
-  fetch("/loginCredentials", {
-    method: "POST",
-    body: JSON.stringify({ username, password })
-  })
-    .then(res => res.json())
-    .then(json => {
-      handleSetters(json);
-    });
+  const fetchRequest = new FetchRequest("/loginCredentials");
+  fetchRequest.postJson({ username, password }, handleSetters);
 };
 
 /**
@@ -33,7 +28,10 @@ const sendLoginCredentials = function(username, password, handleSetters) {
 const Home = function(props) {
   const [password, handlePasswordChange] = useInput(EMPTY_STRING);
   const renderOnChangeOf = [props.username, password];
-  const [notification, setNotification] = useAction(EMPTY_STRING, renderOnChangeOf);
+  const [notification, setNotification] = useAction(
+    EMPTY_STRING,
+    renderOnChangeOf
+  );
 
   const handleSetters = function(json) {
     if (json.incorrectCredentials) {
