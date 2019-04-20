@@ -11,6 +11,7 @@ const App = function() {
   const [correctCredentials, setCorrectCredentials] = useState(false);
 
   const homeProperties = {
+    name,
     setName,
     setAmount,
     setCorrectCredentials,
