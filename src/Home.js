@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { useInput, useAction } from "./customHooks";
 import FetchRequest from "./FetchRequest";
 
@@ -20,12 +21,7 @@ const sendLoginCredentials = function(username, password, handleSetters) {
   fetchRequest.postJson({ username, password }, handleSetters);
 };
 
-/**
- * whenever name or password is changed
- * plz clear the notification
- * useEffect on change clear notification
- */
-const Home = function(props) {
+const Login = function(props) {
   const [password, handlePasswordChange] = useInput(EMPTY_STRING);
   const renderOnChangeOf = [props.username, password];
   const [notification, setNotification] = useAction(
@@ -68,8 +64,72 @@ const Home = function(props) {
         onChange={handlePasswordChange}
       />
       <button onClick={handleSubmit}>login</button>
-      <div>{notification}</div>
+      <div> {notification}</div>
+      <Link to="/signup">Click here to signup</Link>
     </div>
+  );
+};
+
+const SignUp = function() {
+  const [username, handleUsernameChange] = useInput(EMPTY_STRING);
+  const [password, handlePasswordChange] = useInput(EMPTY_STRING);
+  const [name, handleNameChange] = useInput(EMPTY_STRING);
+
+  const runOnChangeOf = [username, password, name];
+  const [notification, setNotification] = useAction(
+    EMPTY_STRING,
+    runOnChangeOf
+  );
+
+  /** should handle username already exception */
+  const handleSubmit = function() {
+    if ((username, password, name)) {
+      // const fetchRequest = new FetchRequest("/signupCredentials");
+      // fetchRequest.postJson({ username, password, name });
+      const items = { username, password, name };
+      const config = { method: "POST", body: JSON.stringify(items) };
+      fetch("/signupCredentials", config);
+      setNotification("account created successfully plz go back to login page");
+      return;
+    }
+    setNotification("field cannot be empty");
+  };
+
+  return (
+    <div>
+      <input
+        placeholder="username"
+        type="text"
+        value={username}
+        onChange={handleUsernameChange}
+      />
+      <input
+        placeholder="name"
+        type="text"
+        value={name}
+        onChange={handleNameChange}
+      />
+      <input
+        placeholder="password"
+        type="password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <button onClick={handleSubmit}>signup</button>
+
+      {/* <p>should be the signup page</p> */}
+      <p>{notification}</p>
+      <Link to="/">Click here to login</Link>
+    </div>
+  );
+};
+
+const Home = function(props) {
+  return (
+    <Router>
+      <Route path="/" exact render={() => <Login {...props} />} />
+      <Route path="/signup" exact render={() => <SignUp />} />
+    </Router>
   );
 };
 

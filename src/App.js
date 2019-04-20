@@ -5,6 +5,10 @@ import Profile from "./Profile";
 import { useInput } from "./customHooks";
 import "./App.css";
 
+
+/**
+ * can name, amount and correctCredentials converted into custom hooks ???
+ */
 const App = function() {
   const [username, handleUsernameChange] = useInput("");
   const [name, setName] = useState("No user");
