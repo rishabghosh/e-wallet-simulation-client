@@ -81,15 +81,22 @@ const SignUp = function() {
     runOnChangeOf
   );
 
+  const handleNotification = function(json) {
+    if (json.duplicateUsername) {
+      setNotification("username already exists.. plz try another username");
+      return;
+    }
+    setNotification("account created successfully plz go back to login page");
+  };
+
   /** should handle username already exception */
   const handleSubmit = function() {
     if (username && password && name) {
       const fetchRequest = new FetchRequest("/signupCredentials");
-      fetchRequest.postJson({ username, password, name });
-      setNotification("account created successfully plz go back to login page");
+      fetchRequest.postJson({ username, password, name }, handleNotification);
       return;
     }
-    setNotification("field cannot be empty");
+    setNotification("fields cannot be empty");
   };
 
   return (

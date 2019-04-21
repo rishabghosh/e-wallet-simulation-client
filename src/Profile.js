@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useInput, useAction } from "./customHooks";
 import FetchRequest from "./FetchRequest";
@@ -26,14 +21,9 @@ const Profile = function(props) {
     fetchRequest.postJson({ newAmount, username: props.username });
   };
 
-  const redirectToRoot = function() {
-    return <Redirect to="/" />;
-  };
-
   return (
     <div>
-      {/* <button onClick={redirectToRoot}>sign out</button> */}
-      <Link to="/">signout{console.log("should sign out")}</Link>
+      <Link to="/">signout</Link>
       <p>name: {props.name}</p>
       <p>amount: {props.amount}</p>
       <input
