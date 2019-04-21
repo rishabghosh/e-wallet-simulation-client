@@ -9,16 +9,34 @@ const Profile = function(props) {
   const renderOnChangeOf = [addedAmount];
   const [notification, setNotification] = useAction("", renderOnChangeOf);
 
+  const displayAmount = function(json) {
+    props.setAmount(json.amount);
+  };
+
+  const updateNewAmountToDB = function(oldAmount) {
+    const newAmount = oldAmount + +addedAmount;
+    const fetchRequest = new FetchRequest("/updateAmount");
+    fetchRequest.postJson(
+      { newAmount, username: props.username },
+      displayAmount
+    );
+  };
+
+  const manageAmountInDB = function() {
+    const fetchRequest = new FetchRequest("/getCurrentAmount");
+    fetchRequest.postJson({ username: props.username }, json => {
+      updateNewAmountToDB(json.amount);
+    });
+  };
+
   const updateAmount = function() {
     if (!(+addedAmount >= 0)) {
       setNotification("Invalid amount");
       return;
     }
-    const newAmount = props.amount + +addedAmount;
-    props.setAmount(newAmount);
+    //old amount should be quired from database
+    manageAmountInDB();
     resetAddedAmount();
-    const fetchRequest = new FetchRequest("/updateAmount");
-    fetchRequest.postJson({ newAmount, username: props.username });
   };
 
   return (
