@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { useInput, useAction } from "../customHooks";
 import FetchRequest from "../fetchRequest";
+import { ERROR_MESSAGE, EMPTY_STRING } from "../constants";
 
 const Profile = function(props) {
   const [addedAmount, handleAddedAmount, resetAddedAmount] = useInput(0);
   const renderOnChangeOf = [addedAmount];
-  const [notification, setNotification] = useAction("", renderOnChangeOf);
+  const [notification, setNotification] = useAction(
+    EMPTY_STRING,
+    renderOnChangeOf
+  );
 
   const displayAmount = function(json) {
     props.setAmount(json.amount);
@@ -31,10 +34,9 @@ const Profile = function(props) {
 
   const updateAmount = function() {
     if (!(+addedAmount >= 0)) {
-      setNotification("Invalid amount");
+      setNotification(ERROR_MESSAGE.invalidAmount);
       return;
     }
-    //old amount should be quired from database
     manageAmountInDB();
     resetAddedAmount();
   };

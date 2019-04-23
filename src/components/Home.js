@@ -5,23 +5,9 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import { useInput, useAction } from "../customHooks";
-import FetchRequest from "../fetchRequest";
-import "../styles/login.css";
+import "../styles/home.css";
 import Login from "./Login";
 import SignUp from "./SignUp";
-
-/**
- * should be a object message with keys like this
- */
-const EMPTY_STRING = "";
-const INCORRECT_CREDENTIAL_MESSAGE = "Incorrect username or password";
-const USERNAME_EXISTS_MESSAGE = "Username already exists. Plz try another";
-const FIELDS_EMPTY_MESSAGE = "Fields cannot be empty";
-
-/* ========= LOGIN ========== */
-
-/* =========== SIGNUP ========== */
 
 const signedUp = function() {
   return (

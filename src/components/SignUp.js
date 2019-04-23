@@ -2,9 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useInput, useAction } from "../customHooks";
 import FetchRequest from "../fetchRequest";
-const EMPTY_STRING = "";
-const USERNAME_EXISTS_MESSAGE = "Username already exists. Plz try another";
-const FIELDS_EMPTY_MESSAGE = "Fields cannot be empty";
+import { ERROR_MESSAGE, EMPTY_STRING } from "../constants";
 
 const SignUp = function(props) {
   const [username, handleUsernameChange] = useInput(EMPTY_STRING);
@@ -19,13 +17,10 @@ const SignUp = function(props) {
 
   const handleNotification = function(json) {
     if (json.duplicateUsername) {
-      setErrorMessage(USERNAME_EXISTS_MESSAGE);
+      setErrorMessage(ERROR_MESSAGE.usernameExists);
       return;
     }
     props.setValidData(true);
-    setErrorMessage(
-      "Account created successfully. Plz go back to the login page"
-    );
   };
 
   const handleSubmit = function() {
@@ -34,39 +29,37 @@ const SignUp = function(props) {
       fetchRequest.postJson({ username, password, name }, handleNotification);
       return;
     }
-    setErrorMessage(FIELDS_EMPTY_MESSAGE);
+    setErrorMessage(ERROR_MESSAGE.fieldsEmpty);
   };
 
   return (
-    <div>
-      <div className="signup-form">
-        <div>
-          <strong>Sign Up</strong>
-        </div>
-
-        <input
-          placeholder="username"
-          type="text"
-          value={username}
-          onChange={handleUsernameChange}
-        />
-        <input
-          placeholder="name"
-          type="text"
-          value={name}
-          onChange={handleNameChange}
-        />
-        <input
-          placeholder="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <button onClick={handleSubmit}>signup</button>
-
-        <div className="error">{errorMessage}</div>
-        <Link to="/">Click here to login</Link>
+    <div className="form">
+      <div>
+        <strong>Sign Up</strong>
       </div>
+
+      <input
+        placeholder="username"
+        type="text"
+        value={username}
+        onChange={handleUsernameChange}
+      />
+      <input
+        placeholder="name"
+        type="text"
+        value={name}
+        onChange={handleNameChange}
+      />
+      <input
+        placeholder="password"
+        type="password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <button onClick={handleSubmit}>signup</button>
+
+      <div className="error">{errorMessage}</div>
+      <Link to="/">Click here to login</Link>
     </div>
   );
 };

@@ -7,7 +7,7 @@ main {
   font-family: "Poppins", sans-serif;
 }
 
-.loginForm {
+.form {
   height: 180px;
   width: 150px;
   padding: 10px;
@@ -29,7 +29,7 @@ main {
   color: red;
 }
 
-input {
+.form > input {
   height: 15px;
   border: 2px solid #d1d1d1;
   background: #d1d1d1;
@@ -39,16 +39,16 @@ input {
   font-size: 12px;
 }
 
-input:hover {
+.form > input:hover {
   border: 2px solid rgb(3, 139, 250);
 }
 
-input:focus {
+.form > input:focus {
   outline: none;
   background-color: #bce3e6;
 }
 
-.loginForm > button {
+.form > button {
   /* width: 50px; */
   height: 20px;
   border-radius: 25px;
@@ -60,12 +60,12 @@ input:focus {
   border: none;
 }
 
-.loginForm > button:hover {
+.form > button:hover {
   background-color: #345285;
   border: none;
 }
 
-.loginForm > button:focus {
+.form > button:focus {
   outline: none;
   background-color: #345285;
   border: none;

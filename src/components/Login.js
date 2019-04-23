@@ -2,9 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useInput, useAction } from "../customHooks";
 import FetchRequest from "../fetchRequest";
-
-const EMPTY_STRING = "";
-const INCORRECT_CREDENTIAL_MESSAGE = "Incorrect username or password";
+import { EMPTY_STRING, ERROR_MESSAGE } from "../constants";
 
 const extractDetails = function(data) {
   const name = data[0].name;
@@ -27,7 +25,7 @@ const Login = function(props) {
 
   const handleSetters = function(json) {
     if (json.incorrectCredentials) {
-      setErrorMessage(INCORRECT_CREDENTIAL_MESSAGE);
+      setErrorMessage(ERROR_MESSAGE.wrongCredentials);
       return;
     }
     const data = extractDetails(json);
@@ -41,11 +39,11 @@ const Login = function(props) {
       sendLoginCredentials(props.username, password, handleSetters);
       return;
     }
-    setErrorMessage(INCORRECT_CREDENTIAL_MESSAGE);
+    setErrorMessage(ERROR_MESSAGE.wrongCredentials);
   };
 
   return (
-    <div className="loginForm">
+    <div className="form">
       <div>
         <strong>User Login</strong>
       </div>
