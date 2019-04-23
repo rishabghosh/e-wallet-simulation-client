@@ -25,11 +25,11 @@ main {
 }
 
 .error {
-    font-size: 12px;
-    color: red;
+  font-size: 12px;
+  color: red;
 }
 
-.loginForm > input {
+input {
   height: 15px;
   border: 2px solid #d1d1d1;
   background: #d1d1d1;
@@ -39,11 +39,11 @@ main {
   font-size: 12px;
 }
 
-.loginForm > input:hover {
+input:hover {
   border: 2px solid rgb(3, 139, 250);
 }
 
-.loginForm > input:focus {
+input:focus {
   outline: none;
   background-color: #bce3e6;
 }
@@ -73,4 +73,21 @@ main {
 
 .link {
   font-size: 12px;
+}
+
+.signup-form {
+  height: 180px;
+  width: 150px;
+  padding: 10px;
+  padding-bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 1px 4px 16px #999;
+  background: white;
 }
