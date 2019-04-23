@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
-import { useInput } from "./customHooks";
-import "./App.css";
+import { useInput } from "../customHooks";
+import "../styles/App.css";
 
 /**
  * can name, amount and correctCredentials converted into custom hooks ???

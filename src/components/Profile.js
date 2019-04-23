@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { useInput, useAction } from "./customHooks";
-import FetchRequest from "./FetchRequest";
+import { useInput, useAction } from "../customHooks";
+import FetchRequest from "../fetchRequest";
 
 const Profile = function(props) {
   const [addedAmount, handleAddedAmount, resetAddedAmount] = useInput(0);

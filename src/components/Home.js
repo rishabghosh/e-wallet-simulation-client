@@ -5,9 +5,9 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import { useInput, useAction } from "./customHooks";
-import FetchRequest from "./FetchRequest";
-import "./Login.css";
+import { useInput, useAction } from "../customHooks";
+import FetchRequest from "../fetchRequest";
+import "../styles/login.css";
 
 /**
  * should be a object message with keys like this
