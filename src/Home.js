@@ -2,13 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { useInput, useAction } from "./customHooks";
 import FetchRequest from "./FetchRequest";
+import "./Login.css";
 
 /**
  * should be a object message with keys like this
  */
 const EMPTY_STRING = "";
-const INCORRECT_CREDENTIAL_MESSAGE = "incorrect username or password";
-const BLANK_CREDENTIAL_MESSAGE = "username or password cannot be blank";
+const INCORRECT_CREDENTIAL_MESSAGE = "Incorrect username or password";
 
 const extractDetails = function(data) {
   const name = data[0].name;
@@ -21,23 +21,24 @@ const sendLoginCredentials = function(username, password, handleSetters) {
   fetchRequest.postJson({ username, password }, handleSetters);
 };
 
+/* ========= LOGIN ========== */
+
 const Login = function(props) {
   const [password, handlePasswordChange] = useInput(EMPTY_STRING);
   const renderOnChangeOf = [props.username, password];
-  const [notification, setNotification] = useAction(
+  const [errorMessage, setErrorMessage] = useAction(
     EMPTY_STRING,
     renderOnChangeOf
   );
 
   const handleSetters = function(json) {
     if (json.incorrectCredentials) {
-      setNotification(INCORRECT_CREDENTIAL_MESSAGE);
+      setErrorMessage(INCORRECT_CREDENTIAL_MESSAGE);
       return;
     }
     const data = extractDetails(json);
     props.setName(data.name);
     props.setAmount(data.amount);
-    // setNotification("correct credentials");
     props.setCorrectCredentials(true);
   };
 
@@ -46,11 +47,15 @@ const Login = function(props) {
       sendLoginCredentials(props.username, password, handleSetters);
       return;
     }
-    setNotification(BLANK_CREDENTIAL_MESSAGE);
+    setErrorMessage(INCORRECT_CREDENTIAL_MESSAGE);
   };
 
   return (
-    <div>
+    <div className="loginForm">
+      <div>
+        <strong>User Login</strong>
+      </div>
+
       <input
         placeholder="username"
         type="text"
@@ -64,11 +69,17 @@ const Login = function(props) {
         onChange={handlePasswordChange}
       />
       <button onClick={handleSubmit}>login</button>
-      <div> {notification}</div>
-      <Link to="/signup">Click here to signup</Link>
+
+      <div className="error"> {errorMessage}</div>
+
+      <Link to="/signup" className="link">
+        Click here to signup
+      </Link>
     </div>
   );
 };
+
+/* =========== SIGNUP ========== */
 
 const SignUp = function() {
   const [username, handleUsernameChange] = useInput(EMPTY_STRING);
@@ -82,6 +93,7 @@ const SignUp = function() {
   );
 
   const handleNotification = function(json) {
+    console.log(json);
     if (json.duplicateUsername) {
       setNotification("username already exists.. plz try another username");
       return;
@@ -128,10 +140,12 @@ const SignUp = function() {
 
 const Home = function(props) {
   return (
-    <Router>
-      <Route path="/" exact render={() => <Login {...props} />} />
-      <Route path="/signup" exact render={() => <SignUp />} />
-    </Router>
+    <main>
+      <Router>
+        <Route path="/" exact render={() => <Login {...props} />} />
+        <Route path="/signup" exact render={() => <SignUp />} />
+      </Router>
+    </main>
   );
 };
 

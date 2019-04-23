@@ -1,0 +1,76 @@
+main {
+  height: 100vh;
+  background: #bce3e6;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.loginForm {
+  height: 180px;
+  width: 150px;
+  padding: 10px;
+  padding-bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 1px 4px 16px #999;
+  background: white;
+}
+
+.error {
+    font-size: 12px;
+    color: red;
+}
+
+.loginForm > input {
+  height: 15px;
+  border: 2px solid #d1d1d1;
+  background: #d1d1d1;
+  border-radius: 25px;
+  text-align: center;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.loginForm > input:hover {
+  border: 2px solid rgb(3, 139, 250);
+}
+
+.loginForm > input:focus {
+  outline: none;
+  background-color: #bce3e6;
+}
+
+.loginForm > button {
+  /* width: 50px; */
+  height: 20px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(66, 124, 172);
+  border: none;
+}
+
+.loginForm > button:hover {
+  background-color: #345285;
+  border: none;
+}
+
+.loginForm > button:focus {
+  outline: none;
+  background-color: #345285;
+  border: none;
+}
+
+.link {
+  font-size: 12px;
+}
