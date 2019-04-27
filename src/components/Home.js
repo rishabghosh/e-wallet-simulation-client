@@ -31,16 +31,20 @@ const Home = function(props) {
 
   return (
     <main>
-      <Router>
-        <Route path="/" exact render={() => <Login {...props} />} />
-        <Route path="/signup" exact render={redirectOnSignUp} />
-        <Route
-          path="/signup"
-          exact
-          render={() => <SignUp {...signUpProps} />}
-        />
-        <Route path="/signedUp" exact render={signedUp} />
-      </Router>
+      <header>WalletX</header>
+      <section>
+        <Router>
+          <Route path="/" exact render={() => <Login {...props} />} />
+          <Route path="/signup" exact render={redirectOnSignUp} />
+          <Route
+            path="/signup"
+            exact
+            render={() => <SignUp {...signUpProps} />}
+          />
+          <Route path="/signedUp" exact render={signedUp} />
+        </Router>
+      </section>
+      <footer></footer>
     </main>
   );
 };

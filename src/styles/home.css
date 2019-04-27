@@ -2,9 +2,38 @@ main {
   height: 100vh;
   background: #bce3e6;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   font-family: "Poppins", sans-serif;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  height: 8%;
+  width: 100%;
+  background: #345285;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.5;
+  color: whitesmoke;
+}
+
+section {
+  height: 80%;
+}
+
+footer {
+  height: 5%;
+  width: 100%;
+  background: #345285;
 }
 
 .form {
