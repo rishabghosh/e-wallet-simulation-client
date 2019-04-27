@@ -45,10 +45,21 @@ const Profile = function(props) {
     resetAddedAmount();
   };
 
+  const updateOrNotify = function(json) {
+    if (json.failed) {
+      setNotification("cant process");
+      return;
+    }
+    displayAmount(json);
+  };
+
   const handlePayment = function() {
-    console.log("pay button is")
+    console.log("pay button is");
     const pay = new FetchRequest("/pay");
-    pay.postJson({ payAmount, usernameOfReceiver });
+    pay.postJson(
+      { username: props.username, usernameOfReceiver, payAmount },
+      updateOrNotify
+    );
   };
 
   return (
