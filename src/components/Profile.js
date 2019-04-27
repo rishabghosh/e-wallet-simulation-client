@@ -20,31 +20,6 @@ const Profile = function(props) {
     props.setAmount(json.amount);
   };
 
-  const updateNewAmountToDB = function(oldAmount) {
-    const newAmount = oldAmount + +addedAmount;
-    const fetchRequest = new FetchRequest("/updateAmount");
-    fetchRequest.postJson(
-      { newAmount, username: props.username },
-      displayAmount
-    );
-  };
-
-  const manageAmountInDB = function() {
-    const fetchRequest = new FetchRequest("/getCurrentAmount");
-    fetchRequest.postJson({ username: props.username }, json => {
-      updateNewAmountToDB(json.amount);
-    });
-  };
-
-  const updateAmount = function() {
-    if (!(+addedAmount >= 0)) {
-      setNotification(ERROR_MESSAGE.invalidAmount);
-      return;
-    }
-    manageAmountInDB();
-    resetAddedAmount();
-  };
-
   const updateOrNotify = function(json) {
     if (json.failed) {
       setNotification("cant process");
@@ -54,11 +29,27 @@ const Profile = function(props) {
   };
 
   const handlePayment = function() {
-    console.log("pay button is");
     const pay = new FetchRequest("/pay");
     pay.postJson(
       { username: props.username, usernameOfReceiver, payAmount },
       updateOrNotify
+    );
+  };
+
+  const handleAmountView = function(json) {
+    if (json.invalid) {
+      setNotification(ERROR_MESSAGE.invalidAmount);
+      return;
+    }
+    displayAmount(json);
+    resetAddedAmount();
+  };
+
+  const sendAmountToBackend = function() {
+    const fetchRequest = new FetchRequest("/add");
+    fetchRequest.postJson(
+      { username: props.username, addedAmount: +addedAmount },
+      handleAmountView
     );
   };
 
@@ -78,7 +69,7 @@ const Profile = function(props) {
         <p>name: {props.name}</p>
         <p>amount: {props.amount}</p>
         <input value={addedAmount} onChange={handleAddedAmount} />
-        <button onClick={updateAmount}>add</button>
+        <button onClick={sendAmountToBackend}>add</button>
         <div>{notification}</div>
       </section>
       <section>
